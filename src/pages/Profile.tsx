@@ -5,6 +5,7 @@ import ChangeUserProfile from '../components/profile/ChangeUserProfile';
 import ProfileCardRaad from '../components/profile/ProfileCardRaad';
 import { BasicTabsRaad } from '../components/TabsRaad';
 import { ProfileInfo } from '../interfaces/ProfileInfo';
+import NightModeToggle from '../components/NightModeToggle';
 import './pages.css';
 
 
@@ -17,6 +18,7 @@ const Profile = () => {
     return (
         <div style={{ marginTop: 80, marginBottom: 120 }}>
             <ProfileCardRaad name={profile.name} urbaName={profile.urbaName} numberPlays={profile.plays} />
+            <NightModeToggle/>
             <BasicTabsRaad
                 listComponents={[
                     <ChangeUserProfile email={profile.username} />,

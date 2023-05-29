@@ -1,89 +1,107 @@
-import { lazy, Suspense, useState } from 'react'
-import { createBrowserRouter, RouterProvider, useNavigate } from 'react-router-dom'
-import { GetTokenId } from './api/auth'
-import Footer from './components/Footer'
-import HeaderRaad from './components/HeaderRaad'
-import NoConnection from './pages/NoConnection'
-import { convertNumberToType, PageType, PageTypeNumber } from './interfaces/pages'
+import { lazy, Suspense, useState } from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useNavigate,
+} from "react-router-dom";
+import { GetTokenId } from "./api/auth";
+import Footer from "./components/Footer";
+import HeaderRaad from "./components/HeaderRaad";
+import NoConnection from "./pages/NoConnection";
+import {
+  convertNumberToType,
+  PageType,
+  PageTypeNumber,
+} from "./interfaces/pages";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { useThemeContext } from "./theme/ThemeContextProvider";
 
-const Comunity = lazy(() => import('./pages/Comunity'));
-const Courts = lazy(() => import('./pages/Courts'));
-const Profile = lazy(() => import('./pages/Profile'));
-const Normative = lazy(() => import('./pages/Normative'));
+const Comunity = lazy(() => import("./pages/Comunity"));
+const Courts = lazy(() => import("./pages/Courts"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Normative = lazy(() => import("./pages/Normative"));
 
-const Login = lazy(() => import('./pages/Login'));
-const ForgetCredentials = lazy(() => import('./pages/ForgetCredentials'));
-const Privacy = lazy(() => import('./pages/Privacy'));
-const NumberCreate = lazy(() => import('./pages/NumberCreate'));
-const Create = lazy(() => import('./pages/Create'));
+const Login = lazy(() => import("./pages/Login"));
+const ForgetCredentials = lazy(() => import("./pages/ForgetCredentials"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const NumberCreate = lazy(() => import("./pages/NumberCreate"));
+const Create = lazy(() => import("./pages/Create"));
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element:
+    element: (
       <Suspense fallback={<NoConnection />}>
         <Login />,
       </Suspense>
+    ),
   },
   {
     path: "/login",
-    element:
+    element: (
       <Suspense fallback={<NoConnection />}>
         <Login />,
       </Suspense>
+    ),
   },
   {
     path: "/courts",
-    element:
+    element: (
       <Suspense fallback={<NoConnection />}>
-        <AppBase/>
-      </Suspense>,
-    errorElement: <NoConnection />
+        <AppBase />
+      </Suspense>
+    ),
+    errorElement: <NoConnection />,
   },
   {
     path: "/create",
-    element:
+    element: (
       <Suspense fallback={<NoConnection />}>
         <Create />,
-      </Suspense>,
-    errorElement: <NoConnection />
+      </Suspense>
+    ),
+    errorElement: <NoConnection />,
   },
   {
     path: "/number",
-    element:
+    element: (
       <Suspense fallback={<NoConnection />}>
         <NumberCreate />,
-      </Suspense>,
-    errorElement: <NoConnection />
+      </Suspense>
+    ),
+    errorElement: <NoConnection />,
   },
   {
     path: "/forget",
-    element:
+    element: (
       <Suspense fallback={<NoConnection />}>
         <ForgetCredentials />,
-      </Suspense>,
-    errorElement: <NoConnection />
+      </Suspense>
+    ),
+    errorElement: <NoConnection />,
   },
   {
     path: "/privacy",
-    element:
+    element: (
       <Suspense fallback={<NoConnection />}>
         <Privacy />,
-      </Suspense>,
-    errorElement: <NoConnection />
+      </Suspense>
+    ),
+    errorElement: <NoConnection />,
   },
   {
     path: "*",
-    element:
+    element: (
       <Suspense fallback={<NoConnection />}>
         <Login />,
-      </Suspense>,
-    errorElement: <NoConnection />
-  }
+      </Suspense>
+    ),
+    errorElement: <NoConnection />,
+  },
 ]);
 
 function AppBase() {
-  const [page, setPage] = useState<PageType>('comunity');
+  const [page, setPage] = useState<PageType>("comunity");
   const navigate = useNavigate();
   const [token, id] = GetTokenId();
   if (token == "" || id == "") {
@@ -100,18 +118,26 @@ function AppBase() {
       </div>
       <Footer
         pageToShow={page}
-        setPageToShow={(t: PageTypeNumber): void => setPage(convertNumberToType(t))} />
+        setPageToShow={(t: PageTypeNumber): void =>
+          setPage(convertNumberToType(t))
+        }
+      />
     </>
-  )
+  );
 }
 
 function App() {
-
+  const { theme } = useThemeContext();
   // Check http or https
   //let urlPath = window.location.href;
   //if(!urlPath.includes("https") && !urlPath.includes("localhost") )
-    //window.location.href ='https://meapunto.online';
+  //window.location.href ='https://meapunto.online';
 
-  return <RouterProvider router={router} />
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  );
 }
-export default App
+export default App;
